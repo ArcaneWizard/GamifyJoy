@@ -6,7 +6,7 @@ const YoutubeFrame = () => {
   const [embeddedLink, setEmbeddedLink] = useState("");
   const { lobby, name } = useLocation().state;
 
-  const changeEmbeddedLink = (e) => {
+  const changeEmbeddedLink = (e : React.ChangeEvent<HTMLInputElement>) => {
     const link = e.target.value;
     setEmbeddedLink(link);
     axiosConfig
@@ -21,20 +21,19 @@ const YoutubeFrame = () => {
       <div className="video-responsive mt-5">
         <input
           type="text"
-          class="form-control w-25 m-auto float-center mt-3"
+          className="form-control w-25 m-auto float-center mt-3"
           value={embeddedLink}
           onChange={(e) => changeEmbeddedLink(e)}
           aria-describedby="emailHelp"
           placeholder="Enter Embedded Youtube Link"
         />
-        <div class="embed-responsive embed-responsive-16by9 mt-4 mb-4">
+        <div className="embed-responsive embed-responsive-16by9 mt-4 mb-4">
           <iframe
-            class="embed-responsive-item"
+            className="embed-responsive-item"
             src={embeddedLink}
-            frameborder="0"
             width="850"
             height="480"
-            allowfullscreen
+            allowFullScreen
             title="video"
           ></iframe>
         </div>

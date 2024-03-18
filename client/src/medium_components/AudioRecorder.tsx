@@ -3,6 +3,7 @@ import { useReactMediaRecorder } from "react-media-recorder";
 import axios from "axios";
 import axiosConfig from "../configs/AxiosConfigs.ts";
 import { useLocation } from "react-router";
+import { AxiosResponse } from "axios";
 
 const AudioRecorder = () => {
   const { state } = useLocation();
@@ -10,10 +11,10 @@ const AudioRecorder = () => {
   const [recordingState, updateRecordingState] = useState("ended");
   const [prevRecordingState, updatePrevRecordingState] = useState("ended");
 
-  const { status, startRecording, stopRecording, mediaBlobUrl, clearBlobUrl } =
+  const { status, startRecording, stopRecording, mediaBlobUrl } =
     useReactMediaRecorder({ video: false });
 
-  const audio = useRef(null);
+  const audio = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     
@@ -38,21 +39,23 @@ const AudioRecorder = () => {
       clearInterval(interval);
       controller.abort();
     }
-  }, []);
+  });
 
   const actBasedOnRecordingState = () => {
   //  console.log("decide whether to begin or end recording");
   //  console.log(recordingState + ", " + prevRecordingState);
-    if (recordingState == "in progress" && prevRecordingState != "in progress")
+    if (recordingState === "in progress" && prevRecordingState !== "in progress")
       beginRecording();
-    else if (recordingState != "in progress" && prevRecordingState == "in progress")
+    else if (recordingState !== "in progress" && prevRecordingState === "in progress")
       endRecording();
   };
 
   const beginRecording = () => {
     console.log("begin recording audio");
     startRecording();
-    audio.current.pause();
+
+    if (audio.current != null)
+      audio.current.pause();
   };
 
   const endRecording = () => {
@@ -61,25 +64,27 @@ const AudioRecorder = () => {
     setTimeout(() => {
       axios({
         method: "get",
-        url: audio.current.src,
+        url: ((audio.current != null) ? audio.current.src : ""),
         responseType: "blob",
       }).then((res) => {
-    console.log("woah");
         const reader = new FileReader();
         reader.readAsDataURL(res.data);
         reader.onloadend = () => {
           const base64data = reader.result;
-          const base64file = base64data.split(",")[1];
-          console.log(base64file);
 
-          if (base64file != "") {
-            axiosConfig
-              .put(`${lobby}/user/audio`, {
-                name: `${name}`,
-                audioFile: base64file,
-              })
-              .then((res) => res.json)
-              .catch((err) => console.log(err.message));
+          if (base64data != null && typeof base64data === 'string') {
+            const base64file = base64data.split(",")[1];
+            console.log(base64file);
+
+            if (base64file !== "") {
+              axiosConfig
+                .put(`${lobby}/user/audio`, {
+                  name: `${name}`,
+                  audioFile: base64file,
+                })
+                .then((res : AxiosResponse<any>) => res.data)
+                .catch((err) => console.log(err.message));
+            }
           }
         };
       });

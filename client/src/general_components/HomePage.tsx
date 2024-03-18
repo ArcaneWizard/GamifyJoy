@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axiosConfig from "../configs/AxiosConfigs.ts";
 import whiteLogo from "../images/white_logo_3.png";
 import styled from 'styled-components';
-import { AxiosExistsRes, AxiosSuccessRes, Exists, Success } from "../configs/AxiosRes.ts";
-import { Axios, AxiosResponse } from "axios";
+import { AxiosExistsRes, Exists, Success } from "../configs/AxiosRes.ts";
+import { AxiosResponse } from "axios";
 
 const HomePage = () => {
   const [code, setCode] = useState(""); // lobby code
   const [name, setName] = useState(""); // user name
   const [errorMsg, updateErrorMsg] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const controller = new AbortController();
   let isCreatingLobby = false;
@@ -36,25 +36,25 @@ const HomePage = () => {
     isUpdatingJoinableLobby = true;
     setCode(newCode);
 
-    if (name == "" && clickedJoin) {
+    if (name === "" && clickedJoin) {
       updateErrorMsg("Please enter a name before joining a lobby.");
       isUpdatingJoinableLobby = false;
       return;
     }
     
-    else if (name == "" && !clickedJoin) {
+    else if (name === "" && !clickedJoin) {
       updateErrorMsg("Please enter a name before creating a lobby.");
       isUpdatingJoinableLobby = false;
       return;
     }
     
-    else if (newCode.length == 0 && !clickedJoin) {
+    else if (newCode.length === 0 && !clickedJoin) {
       updateErrorMsg("");
       isUpdatingJoinableLobby = false;
       return;
     }
 
-    else if (newCode.length != 5) {
+    else if (newCode.length !== 5) {
       updateErrorMsg("A lobby code must be 5 letters long");
       isUpdatingJoinableLobby = false;
       return;
@@ -90,7 +90,7 @@ const HomePage = () => {
             },
           };
           
-          history.push(nextPageLocation);
+          navigate(nextPageLocation);
         }
       }
       catch {
@@ -134,7 +134,7 @@ const HomePage = () => {
     isCreatingLobby = true;
     
     // invalid username error
-    if (name == "") {
+    if (name === "") {
       updateErrorMsg("Please enter a name before joining a lobby");
       isCreatingLobby = false; 
       return;
@@ -143,13 +143,13 @@ const HomePage = () => {
     // try to create lobby with unique code
     let status: number = LobbyCreationStatus.RETRY_ERROR;
     let newCode : string = "";
-    while (status == LobbyCreationStatus.RETRY_ERROR) {
+    while (status === LobbyCreationStatus.RETRY_ERROR) {
       newCode = generateLobbyCode();
       status = await tryToCreateLobby(newCode);
     }
 
     // add user to lobby and load it
-    if (status == LobbyCreationStatus.SUCCESS) {
+    if (status === LobbyCreationStatus.SUCCESS) {
       axiosConfig
       .post<Success>(`/${newCode}/user`, {
         name:name
@@ -164,7 +164,7 @@ const HomePage = () => {
               },
             };
             isCreatingLobby = false; 
-            history.push(nextPageLocation);
+            navigate(nextPageLocation);
         }
       })
       .catch(() => {
@@ -172,7 +172,7 @@ const HomePage = () => {
         isCreatingLobby = false; 
       })
     }
-    else if (status == LobbyCreationStatus.FAIL_ERROR) {
+    else if (status === LobbyCreationStatus.FAIL_ERROR) {
       updateErrorMsg("Network Error. Couldn't connect to server");
       isCreatingLobby = false; 
     }

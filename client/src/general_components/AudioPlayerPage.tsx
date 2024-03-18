@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
-import AudioRecorder from "../medium_components/AudioRecorder";
-import ListPlayers from "../medium_components/ListPlayers";
-import VidElement from "../small_components/VidElement";
+import AudioRecorder from "../medium_components/AudioRecorder.tsx";
+import ListPlayers from "../medium_components/ListPlayers.tsx";
+import VidElement from "../small_components/VidElement.tsx";
 import axiosConfig from "../configs/AxiosConfigs.ts";
 
 const AudioPlayerPage = () => {
@@ -36,7 +36,7 @@ const AudioPlayerPage = () => {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {clearInterval(interval); console.log("hehehehe"); handleBeforeUnload();}
-  }, []);
+  });
 
   const handleBeforeUnload = () => {
     console.log(lobby + ", " + name + ", high");
@@ -51,7 +51,7 @@ const AudioPlayerPage = () => {
     <div className="text-center">
       <h5 className="text-white pt-5">Lobby Code:</h5>
       <h1 className="text-white mb-5">{id}</h1>
-      <div class="row pt-lg-4"></div>
+      <div className="row pt-lg-4"></div>
 
       <div className="fixed-bottom mb-5">
         <ListPlayers />

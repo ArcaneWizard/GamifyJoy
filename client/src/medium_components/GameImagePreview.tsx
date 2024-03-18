@@ -1,4 +1,3 @@
-import React from "react";
 import panda from "../test_images/Panda.png";
 
 const GameImagePreview = () => {
@@ -7,9 +6,8 @@ const GameImagePreview = () => {
       <img
         src={panda}
         className="img-fluid flex-content rounded text-center"
-        alt="Responsive image"
       />
-    </div>
+    </div> 
   );
 };
 

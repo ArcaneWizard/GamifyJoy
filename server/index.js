@@ -8,7 +8,6 @@ const port = process.env.PORT || 5000;
 const mongoURI = `localhost/database`;
 let db = require("monk")(process.env.MONGOATLAS_URL || mongoURI);
 console.log("Connected to " + db._connectionURI);
-console.log(db);
 
 //Middleware
 const cors = require("cors");
@@ -220,10 +219,12 @@ app.listen(port, () => {
   console.log(`server has started on port ${port}`);
 });
 
+/*
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "./build")));
+  app.use(express.static(path.join(__dirname, "./client/build/index.html")));
 }
-
+ 
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(path.join(__dirname, "./build/index.html")));
+  res.sendFile(path.join(path.join(__dirname, "../client/build/index.html")));
 });
+*/

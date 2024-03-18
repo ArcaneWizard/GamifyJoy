@@ -1,18 +1,21 @@
 import React from "react";
 
-const VidElement = ({ embeddedLink }) => {
+interface Link {
+  embeddedLink: string;
+};
+
+const VidElement = ({embeddedLink} : Link) => {
   return (
     <div>
       <div className="video-responsive mt-5">
-        <div class="embed-responsive embed-responsive-16by9">
+        <div className="embed-responsive embed-responsive-16by9">
           <iframe
-            class="embed-responsive-item"
+            className="embed-responsive-item"
             src={embeddedLink}
-            frameborder="0"
             width="1000"
             height="560"
-            allowfullscreen
             title="video"
+            allowFullScreen
           ></iframe>
         </div>
       </div>

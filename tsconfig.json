@@ -1,41 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "baseUrl": "./",
-    "paths": {
-      "@configs/*": ["./configs/*"]
-      // Other paths if defined...
-    },
-    "jsx": "preserve",
-    "newLine": "lf",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "strict": false,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [ "ES2020", "DOM", "DOM.Iterable" ],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+
+    /* Bundler mode */
     "moduleResolution": "bundler",
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "composite": true,
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "client/**/*.ts",
-    "client/**/*.tsx",
-    "client/**/*.js", 
-    "client/**/*.jsx"
-  ],
-  "exclude": [
-    "*/**/node_modules",
-    "../node_modules",
-    "client/node_modules/*",
-    "node_modules"
-  ]
+  "include": [ "server", "client", ".eslintrc.js"]
 }

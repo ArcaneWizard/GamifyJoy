@@ -1,0 +1,228 @@
+module.exports = {
+  root: true,
+  env: { browser: true, es2020: true, node: true },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:jest-dom/recommended"
+  ],
+  ignorePatterns: ["dist/", ".eslintrc.cjs", "*json", "*config", "*html", "*.gitignore",
+    'out/', 'build/'],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "tsconfigRootDir": __dirname,
+    "project": "tsconfig.json"
+  },
+  plugins: ["react-refresh", "react", "react-hooks", "@stylistic/eslint-plugin"],
+  settings: {
+    react: { version: 'detect' },
+  },
+  rules: {
+    // require .tsx/.jsx files to only export components -> optimize app for fast refresh
+    "react-refresh/only-export-components": [
+      "warn",
+      { allowConstantExport: true },
+    ],
+
+    // require JS/TS/JSX/TSX file indents to be 2 spaces 
+    "react/jsx-indent": ["warn", 2],
+    "react/jsx-indent-props": ["warn", 2],
+    "@stylistic/indent": ["warn", 2],
+
+    // JS/TS formatting rules
+    "quotes": ["warn", "double"], // require double quotes for strings
+    "semi": ["warn", "always"], // require end of line semicolon in JS/TS
+    "@stylistic/brace-style": ["warn", "1tbs", { "allowSingleLine": true }], // enforce one true curly bracket style
+    "curly": ["warn", "all"], // curly brackets required for all blocks
+
+    // disable specific JS/TS imported plugin rules
+    "comma-dangle": "off", // comma at end of last object property is optional
+    "no-console": "off", // allow console statements for debugging
+
+    // JS/TS code rules
+    "no-cond-assign": ["warn", "always"], // no assignments inside conditions (ex. if statement condition)
+    "default-case": ["warn"], // switch statements require default case
+    "default-case-last": ["warn"], // default-case is at end of switch statement
+    "default-param-last": ["warn"], // params with default values are listed last
+    "dot-notation": ["warn"], // use . over [] for property access whenever possible
+    "eqeqeq": ["warn", "smart"], // require === instead of == for type safe comparisons
+    "new-cap": ["warn"], // constructors must start with capital letter
+    "prefer-const": ["warn"], // use const if a variable never gets reassigned
+    "no-lone-blocks": ["warn"], // eliminate unnecessary curly brackets
+    "no-redeclare": ["warn"], // no repeat declarations of same var
+
+    // spot unused or useless logic, or outdated syntax
+    "no-unused-expressions": ["warn"],
+    "no-unused-labels": ["warn"],
+    "no-useless-call": ["warn"],
+    "no-useless-concat": ["warn"],
+    "no-useless-computed-key": ["warn"],
+    "no-useless-return": ["warn"],
+    "no-dupe-class-members": ["warn"],
+    "no-unused-private-class-members": ["warn"],
+    "no-self-compare": ["warn"],
+
+    // enforce limit on max # of lines of code + comments in a file
+    "max-lines": ["warn", {
+      "max": 500,
+      "skipBlankLines": true,
+      "skipComments": false,
+    }],
+
+    // other TS/JS rules (not set by default by the imported ts plugins or eslint recommended plugin) 
+    "no-var": ["warn"], // ban var usage
+    "init-declarations": ["warn"], // no variable declaration without initialization
+    "no-await-in-loop": ["warn"], // move await inside loops outside (more efficient)
+    "no-constant-binary-expression": ["warn"], // redundant logic
+    "no-constructor-return": ["warn"], // redundant return
+    "no-duplicate-imports": ["warn"],  // organize imports together
+    "no-template-curly-in-string": ["warn"], // avoid confusing strings and literals
+    "no-use-before-define": ["warn", { // disallow variable use before they are defined
+      "functions": true,
+      "classes": true,
+      "variables": false, // don't perform this check in upper scopes (ex. inside another function)
+      "allowNamedExports": false
+    }],
+    "require-atomic-updates": ["warn"], // prevents accidental race conditions with await
+    "no-promise-executor-return": ["warn"], // no returns from a promise executor function (redundant)
+    "accessor-pairs": ["warn", { // warn about properties with a set but no get
+      "setWithoutGet": true,
+      "getWithoutSet": false,
+      "enforceForClassMembers": true
+    }],
+
+    // react rules (not set by default by the imported react or jsx plugins)
+    "react/prefer-stateless-function": "warn", // stateless components should be written as pure functions -> performance
+    "react/button-has-type": "warn", // prevent unintentional reloads with submit buttons
+    "react/jsx-pascal-case": "warn",
+    "react/jsx-no-script-url": "warn", // ban URLs starting with javascript
+    "react/no-unstable-nested-components": ["warn", { allowAsProps: true }],
+    "react/jsx-fragments": "warn", // use <> over <React.Fragment>
+    "react/jsx-no-leaked-render": ["warn",
+      { validStrategies: ["ternary"] }], // discourage && to render JSX conditionally (bugs -> can crash)
+    "react/jsx-max-depth": ["warn", { max: 6 }], // enforce max nesting depth for JSX elements
+    "react/jsx-no-useless-fragment": "warn", // disallow unnecessary JSX fragments
+    "react/no-typos": "warn", // enforce no case typos on React Lifecycle methods (all) and static class properties
+    "react/self-closing-comp": "warn", // enforce removing unnecessary extra closing tags
+    "react/jsx-sort-props": "off", // don't sort prop names alphabetically
+    "react/jsx-one-expression-per-line": "off", // allow one or more JSX elements per line
+    "react/prop-types": "warn", // enforce component props have a well defined type
+    "react/no-access-state-in-setstate": "warn",
+    "react/no-array-index-key": "warn",
+    "react/no-did-mount-set-state": "warn",
+    "react/no-namespace": "warn", // don't use namespace in JSX elements
+    "react/no-object-type-as-default-prop": "warn",
+    "react/no-redundant-should-component-update": "warn",
+    "react/no-this-in-sfc": "warn", // discourage use of 'this' in stateless functional components
+    "react/no-unescaped-entities": "warn", // escape HTML markup -> avoid accidental bugs
+    "react/no-unused-class-component-methods": "warn",
+    "react/no-will-update-set-state": "warn", // ban updating state during the componentWillUpdate -> buggy
+    "react/prefer-es6-class": "warn", // encourage only one way of creating component classes
+    "react/prefer-exact-props": "warn",
+    "react/require-render-return": "warn", // catch forgotten return
+    "react/static-property-placement": "warn", // enforce react component static properties declared inside
+    "react/style-prop-object": "warn", // value of the prop style must be an object or variable that is an object
+    "react/void-dom-elements-no-children": "warn", // catch a wrong usage of dom elements
+    "react/jsx-no-constructed-context-values": "warn", // context provider inefficient behavior deterrent
+
+    // react formatting rules
+    "react/jsx-curly-brace-presence": ["warn", { props: "ignore", children: "always", "propElementValues": "always" }],
+    "react/jsx-closing-bracket-location": "warn",
+    "react/jsx-closing-tag-location": ["warn", { multiline: "consistent", singleline: "consistent" }],
+    "react/jsx-curly-spacing": "warn",
+    "react/jsx-equals-spacing": "warn",
+
+    // The default values are good here.
+    "react/jsx-tag-spacing": ["warn"],
+
+    "react/jsx-props-no-multi-spaces": "warn",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".jsx", ".tsx"] }], // enforce extension file names if jsx component is present
+    "react/jsx-no-comment-textnodes": "warn", // prevent comments from accidentally being displayed as text
+  },
+
+  // note: tried initially extrapolating out common rules between .ts and .tsx files, and then overriding
+  // them individually with unique rules, but that led to minor linting bugs with testing. hence .ts and .tsx
+  // files are defined separately
+  overrides: [
+    {
+      // .ts file specific rules
+      files: ["**/*.ts"],
+       parser: '@typescript-eslint/parser',
+          extends: [
+        "plugin:@typescript-eslint/strict-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+      ],
+      parserOptions: {
+        project: ["./tsconfig.json"]
+      },
+      rules: {
+        // naming rules
+        "@typescript-eslint/naming-convention": ["warn",
+          { selector: ["parameter", "variableLike", "variable"], format: null, filter: "_" },
+          { selector: "default", format: ["PascalCase", "camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "parameter", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "method", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "variableLike", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "memberLike", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "property", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+
+          { selector: "typeLike", format: ["PascalCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "enumMember", format: ["PascalCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "typeParameter", format: ["PascalCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "variable", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          {
+            selector: ["function", "objectLiteralProperty", "objectLiteralMethod"],
+            format: ["camelCase"],
+            leadingUnderscore: "forbid", trailingUnderscore: "forbid"
+          }],
+
+          // disable default rules
+          "@typescript-eslint/no-confusing-void-expression": "off"
+      }
+    },
+    {
+      //.tsx file rules 
+      files: ["**/*.tsx"],
+      parser: '@typescript-eslint/parser',
+      extends: [
+        "plugin:@typescript-eslint/strict-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+      ],
+      parserOptions: {
+        project: ["./tsconfig.json"]
+      },
+      rules: {
+        // naming rules
+        "@typescript-eslint/naming-convention": ["warn",
+          { selector: ["parameter", "variableLike", "variable"], format: null, filter: "_" },
+          { selector: "default", format: ["PascalCase", "camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "parameter", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "method", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "variableLike", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "memberLike", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "property", format: ["camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+
+          // Some style selectors will need to have properties like ":hover"
+          { selector: "objectLiteralProperty", format: null },
+
+          { selector: "typeLike", format: ["PascalCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "enumMember", format: ["PascalCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "typeParameter", format: ["PascalCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          { selector: "variable", format: ["PascalCase", "camelCase"], leadingUnderscore: "forbid", trailingUnderscore: "forbid" },
+          {
+            selector: ["function", "objectLiteralProperty", "objectLiteralMethod"],
+            types: ["function"],
+            format: ["camelCase", "PascalCase"],
+            leadingUnderscore: "forbid", trailingUnderscore: "forbid"
+          }],
+
+          // disable default rules
+          "@typescript-eslint/no-confusing-void-expression": "off"
+      }
+    },
+  ]
+}

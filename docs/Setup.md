@@ -1,6 +1,6 @@
 
 ## Repo setup:
-   To setup the repo, first run ```npm install```.
+   To setup the codebase on your local dev environment, first run ```npm install```.
    Next we must specify some environment variables. Create  a ```.env``` file in the main directory and specify the following.
    Feel free to copy paste. 
 

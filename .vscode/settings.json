@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.altClickMovesCursor": true,
+    "editor.gotoLocation.alternativeDeclarationCommand": "editor.action.peekDefinition",
+    "editor.gotoLocation.alternativeDefinitionCommand": "editor.action.peekImplementation",
+    "editor.gotoLocation.alternativeTypeDefinitionCommand": "editor.action.peekTypeDefinition"
+}

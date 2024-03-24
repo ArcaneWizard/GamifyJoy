@@ -1,4 +1,4 @@
-import panda from "../test_images/Panda.jpg";
+import panda from "../test_images/Panda.png";
 
 const GameImagePreview = () => {
   return (
